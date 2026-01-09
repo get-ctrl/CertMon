@@ -1,5 +1,8 @@
 import asyncio
+#import ssl
+
 from cryptography import x509
+
 from certmon import CertMon
 
 FLAG_CN = x509.oid.NameOID.COMMON_NAME
@@ -21,15 +24,15 @@ def x509_get_subjectNames(cert):
         pass
     return domains
 
-def callback(entry):
+async def callback(entry):
     cert = x509_decode(entry[2])
     domains = x509_get_subjectNames(cert)
-    print(", ".join(domains))
+    print(str(entry[0]) + " " + ", ".join(domains))
 
 async def main():
     mon = CertMon(callback)
     await mon.connect()
-    await mon.run()
+    await mon.start()
 
 if __name__ == '__main__':
     asyncio.run(main())
