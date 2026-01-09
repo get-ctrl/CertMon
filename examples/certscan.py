@@ -1,8 +1,5 @@
 import asyncio
-#import ssl
-
 from cryptography import x509
-
 from certmon import CertMon
 
 FLAG_CN = x509.oid.NameOID.COMMON_NAME
