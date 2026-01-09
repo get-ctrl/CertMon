@@ -16,18 +16,19 @@ class CertMon:
         self.callback = callback
         self.running = False
         self.lastid = -1
-        self.interval = 0.01
+        self.interval = 0.05
     
     async def connect(self):
         self.conn = await psycopg.AsyncConnection.connect(CONN_STR_CRTSH, autocommit=True, prepare_threshold=None)
         self.cur = self.conn.cursor()
     
     async def disconnect(self):
-        if self.conn: self.conn.close()
+        if self.conn:
+            await self.conn.close()
     
     async def reconnect(self):
         await self.disconnect()
-        await asyncio.sleep(5)
+        await asyncio.sleep(1)
         await self.connect()
     
     async def query(self, query_str):
@@ -55,6 +56,7 @@ class CertMon:
         self.running = True
         await self.query_latest()
         while self.running:
+            await asyncio.sleep(self.interval)
             try:
                 await self.query_since()
             except Exception as ex:
