@@ -58,8 +58,9 @@ class CertMon:
             try:
                 await self.query_since()
             except Exception as ex:
-                print(ex)
                 await self.reconnect()
+                await asyncio.sleep(1)
+                await self.query_latest()
         
     async def stop(self):
         self.running = False
