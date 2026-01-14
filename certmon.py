@@ -100,7 +100,7 @@ class CertMon:
     async def return_loop(self):
         while self.running:
             if self.pages.empty():
-                await asyncio.sleep(10)
+                await asyncio.sleep(1)
                 continue
             page = await self.pages.get()
             await self.dispatch(page)
