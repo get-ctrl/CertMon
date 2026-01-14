@@ -13,6 +13,8 @@ if sys.platform == 'win32':
 class CertEntry:
     
     def __init__(self, entry):
+        if not entry: return
+        if len(entry) < 3: return
         self.id = entry[0]
         self.binary = entry[2]
 
