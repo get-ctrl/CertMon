@@ -1,4 +1,5 @@
 import asyncio
+
 from cryptography import x509
 from certmon import CertMon
 
@@ -9,12 +10,14 @@ def x509_decode(cert_binary):
 
 def x509_getdomain(cert):
     cn = cert.subject.get_attributes_for_oid(FLAG_CN)
+    if not cn or len(cn) == 0: return None
     return cn[0].value
 
 async def callback(entry):
     cert = x509_decode(entry.binary)
     domain = x509_getdomain(cert)
-    print(entry.id, domain)
+    if domain:
+        print(entry.id, domain)
 
 async def main():
     mon = CertMon(callback)
