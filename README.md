@@ -11,8 +11,8 @@ import asyncio
 from certmon import CertMon
 
 async def callback(entry):
-    cert_id = entry[0]
-    cert_binary = entry[2]
+    cert_id = entry.id
+    cert_binary = entry.binary
     print(cert_id)
 
 async def main():
